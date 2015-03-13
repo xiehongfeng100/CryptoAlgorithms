@@ -35,6 +35,14 @@ public:
 	vector<uint> retPrime_5(uint lbound, uint ubound);	
 	// bool isPrime_5(uint num);
 
+	// method 6
+	vector<uint> retPrime_6(uint lbound, uint ubound);
+	// bool isPrime_5(uint num);
+
+	// method 7
+	vector<uint> retPrime_7(uint lbound, uint ubound);
+	// bool isPrime_5(uint num);
+
 };
 
 //*********************************** method 1 ***********************************//
@@ -220,7 +228,12 @@ vector<uint> IsPrime::retPrime_5(uint lbound, uint ubound)
 
 	vector<bool> isprime;
 	for (int i = 0; i < ubound; i++)
-		isprime.push_back(true);
+	{
+		if (i < 2)
+			isprime.push_back(false);
+		else
+			isprime.push_back(true);
+	}
 
 	for (int i = 2; i < ubound; i++)
 	{
@@ -233,7 +246,7 @@ vector<uint> IsPrime::retPrime_5(uint lbound, uint ubound)
 	vector<uint> ret;
 	for (int i = lbound; i < ubound; i++)
 	{
-		if (i != 0 && i != 1 && isprime[i])
+		if (isprime[i])
 			ret.push_back(i);
 	}
 
@@ -246,6 +259,82 @@ vector<uint> IsPrime::retPrime_5(uint lbound, uint ubound)
 //
 //	return ret;
 //}
+
+//*********************************** method 6 ***********************************//
+vector<uint> IsPrime::retPrime_6(uint lbound, uint ubound)
+{
+	assert(lbound >= 0);
+	assert(ubound >= 0);
+	assert(lbound <= ubound);
+
+	vector<bool> isprime;
+	for (int i = 0; i < ubound; i++)
+	{
+		if (i < 2)
+			isprime.push_back(false);
+		else
+			isprime.push_back(true);
+	}
+
+	for (int i = 2; i < ubound; i++)
+	{
+		if (isprime[i])
+		{
+			for (int j = i + i; j < ubound; j += i)
+			{
+				isprime[j] = false;
+			}
+		}
+	}
+
+	vector<uint> ret;
+	for (int i = lbound; i < ubound; i++)
+	{
+		if (isprime[i])
+			ret.push_back(i);
+	}
+
+	return ret;
+}
+
+//*********************************** method 7 ***********************************//
+vector<uint> IsPrime::retPrime_7(uint lbound, uint ubound)
+{
+	assert(lbound >= 0);
+	assert(ubound >= 0);
+	assert(lbound <= ubound);
+
+	vector<bool> isprime;
+	for (int i = 0; i < ubound; i++)
+	{
+		if (i < 2)
+			isprime.push_back(false);
+		else
+			isprime.push_back(true);
+	}
+
+	uint ulimit = sqrt(ubound) + 1;
+	for (int i = 2; i < ulimit; i++)
+	{
+		if (isprime[i])
+		{
+			uint repeat = ubound / i;
+			for (int j = 2; j < repeat; j++)
+			{
+				isprime[i * j] = false;
+			}
+		}
+	}
+
+	vector<uint> ret;
+	for (int i = lbound; i < ubound; i++)
+	{
+		if (isprime[i])
+			ret.push_back(i);
+	}
+
+	return ret;
+}
 
 
 #endif
